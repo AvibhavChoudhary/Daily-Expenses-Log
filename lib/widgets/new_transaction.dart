@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
 
-
   NewTransaction(this.addNewTransaction);
 
   @override
@@ -23,7 +22,9 @@ class _NewTransactionState extends State<NewTransaction> {
       return;
     }
 
-    widget.addNewTransaction(enteredTitle,enteredAmount);
+    widget.addNewTransaction(enteredTitle, enteredAmount);
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -35,7 +36,7 @@ class _NewTransactionState extends State<NewTransaction> {
           TextField(
             autocorrect: true,
             controller: titleController,
-            onSubmitted: (_)=>onSubmit(),
+            onSubmitted: (_) => onSubmit(),
             textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(
               labelText: "Title",
@@ -44,7 +45,7 @@ class _NewTransactionState extends State<NewTransaction> {
           TextField(
             autocorrect: true,
             controller: amountController,
-            onSubmitted: (_)=>onSubmit(),
+            onSubmitted: (_) => onSubmit(),
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: "Amount",

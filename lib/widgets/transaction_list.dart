@@ -4,7 +4,8 @@ import 'package:transaction_log/models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> _transactions;
-  TransactionList(this._transactions);
+  final Function _deletetx;
+  TransactionList(this._transactions,this._deletetx);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,27 +32,38 @@ class TransactionList extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (context, index) {
-                return Card(shadowColor: Colors.brown,
-                  margin: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                return Card(
+                  shadowColor: Colors.brown,
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   elevation: 6,
-                      child: ListTile(
+                  child: ListTile(
                     leading: CircleAvatar(
                       radius: 50,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: FittedBox(
-                          child: Text("${_transactions[index].amount.toStringAsFixed(0)}"
-                          )),
+                            child: Text(
+                                "${_transactions[index].amount.toStringAsFixed(0)}")),
                       ),
                     ),
-                    title: Text(_transactions[index].title,style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),),
-                    subtitle:Text(DateFormat.yMMMEd().format(_transactions[index].dateTime),style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),) ,
+                    title: Text(
+                      _transactions[index].title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMEd().format(_transactions[index].dateTime),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed:()=> _deletetx(_transactions[index].id),
+                    ),
                   ),
                 );
               },

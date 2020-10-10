@@ -12,7 +12,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
-      theme: ThemeData(primarySwatch: Colors.brown, fontFamily: "OpenSans"),
+      title: "Transaction Log",
+      theme: ThemeData(
+        primarySwatch: Colors.brown,
+        fontFamily: "QuickSand",
+      ),
     );
   }
 }
@@ -25,37 +29,70 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Transaction> transactions = [
     Transaction(
-        amount: 335, dateTime:DateTime.now().subtract(Duration(days: 3)), id: "aaa", title: "Shoes"),
+        amount: 335,
+        dateTime: DateTime.now().subtract(Duration(days: 3)),
+        id: "aaa",
+        title: "Shoes"),
     Transaction(
-        amount: 784, dateTime: DateTime.now().subtract(Duration(days: 2)), id: "bbb", title: "Tshirt"),
-         Transaction(
-        amount: 250, dateTime: DateTime.now().subtract(Duration(days: 1)), id: "aaa", title: "Shoes"),
+        amount: 784,
+        dateTime: DateTime.now().subtract(Duration(days: 2)),
+        id: "bbb",
+        title: "Tshirt"),
     Transaction(
-        amount: 246, dateTime: DateTime.now().subtract(Duration(days: 4)), id: "bbb", title: "Tshirt"),
-         Transaction(
-        amount: 257, dateTime: DateTime.now().subtract(Duration(days: 3)), id: "aaa", title: "Shoes"),
+        amount: 250,
+        dateTime: DateTime.now().subtract(Duration(days: 1)),
+        id: "aaa",
+        title: "Shoes"),
     Transaction(
-        amount: 475, dateTime: DateTime.now().subtract(Duration(days: 6)), id: "bbb", title: "Tshirt"),
-            Transaction(
+        amount: 246,
+        dateTime: DateTime.now().subtract(Duration(days: 4)),
+        id: "bbb",
+        title: "Tshirt"),
+    Transaction(
+        amount: 257,
+        dateTime: DateTime.now().subtract(Duration(days: 3)),
+        id: "aaa",
+        title: "Shoes"),
+    Transaction(
+        amount: 475,
+        dateTime: DateTime.now().subtract(Duration(days: 6)),
+        id: "bbb",
+        title: "Tshirt"),
+    Transaction(
         amount: 565, dateTime: DateTime.now(), id: "bbb", title: "Tshirt"),
-         Transaction(
-        amount: 875, dateTime: DateTime.now().subtract(Duration(days: 2)), id: "aaa", title: "Shoes"),
+    Transaction(
+        amount: 875,
+        dateTime: DateTime.now().subtract(Duration(days: 2)),
+        id: "aaa",
+        title: "Shoes"),
     Transaction(
         amount: 165, dateTime: DateTime.now(), id: "bbb", title: "Tshirt"),
-         Transaction(
-        amount: 578, dateTime: DateTime.now().subtract(Duration(days: 5)), id: "aaa", title: "Shoes"),
+    Transaction(
+        amount: 578,
+        dateTime: DateTime.now().subtract(Duration(days: 5)),
+        id: "aaa",
+        title: "Shoes"),
     Transaction(
         amount: 956, dateTime: DateTime.now(), id: "bbb", title: "Tshirt"),
-            Transaction(
+    Transaction(
         amount: 785, dateTime: DateTime.now(), id: "bbb", title: "Tshirt"),
-         Transaction(
-        amount: 653, dateTime: DateTime.now().subtract(Duration(days: 5)), id: "aaa", title: "Shoes"),
+    Transaction(
+        amount: 653,
+        dateTime: DateTime.now().subtract(Duration(days: 5)),
+        id: "aaa",
+        title: "Shoes"),
     Transaction(
         amount: 986, dateTime: DateTime.now(), id: "bbb", title: "Tshirt"),
-         Transaction(
-        amount: 354, dateTime: DateTime.now().subtract(Duration(days: 7)), id: "aaa", title: "Shoes"),
     Transaction(
-        amount: 542, dateTime: DateTime.now().subtract(Duration(days: 7)), id: "bbb", title: "Tshirt"),
+        amount: 354,
+        dateTime: DateTime.now().subtract(Duration(days: 7)),
+        id: "aaa",
+        title: "Shoes"),
+    Transaction(
+        amount: 542,
+        dateTime: DateTime.now().subtract(Duration(days: 7)),
+        id: "bbb",
+        title: "Tshirt"),
   ];
 
   List<Transaction> get _recentTransaction {
@@ -64,15 +101,21 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(String txTitle, double txAmount, DateTime date) {
     final newTx = Transaction(
         amount: txAmount,
-        dateTime: DateTime.now(),
+        dateTime: date,
         id: DateTime.now().toString(),
         title: txTitle);
 
     setState(() {
       transactions.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      transactions.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -92,7 +135,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Transaction Log"),
+        title: Text(
+          "Transaction Log",
+        ),
         actions: [
           IconButton(
               icon: Icon(Icons.add),
@@ -104,7 +149,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Chart(_recentTransaction),
-            TransactionList(transactions),
+            TransactionList(transactions,_deleteTransaction),
           ],
         ),
       ),
